@@ -114,7 +114,6 @@ fn search(path: PathBuf, search_str: &str) -> Vec<SearchSuccess> {
     let mut reader = BufReader::new(file);
     let mut buf = Vec::new();
     let mut line_count = 0;
-    let mut last_iteration = false;
 
     loop {
         line_count += 1;
@@ -128,12 +127,12 @@ fn search(path: PathBuf, search_str: &str) -> Vec<SearchSuccess> {
                     path.display()
                 );
                 eprintln!("Full error: {}", e);
-                0
+                continue;
             }
         };
 
-        if read_bytes == 0 || buf.get(read_bytes - 1) == Some(&b'\0') {
-            last_iteration = true;
+        if read_bytes == 0 {
+            break;
         }
 
         if read_bytes < search_str.len() {
@@ -157,10 +156,6 @@ fn search(path: PathBuf, search_str: &str) -> Vec<SearchSuccess> {
             })
         }
         buf.clear();
-
-        if last_iteration {
-            break;
-        }
     }
 
     successes

@@ -10,12 +10,7 @@ use structopt::StructOpt;
 )]
 struct CliOpts {
     /// Input directory.
-    #[structopt(
-        short,
-        long,
-        parse(from_os_str),
-        default_value = "D:\\file-searcher\\src"
-    )]
+    #[structopt(short, long, parse(from_os_str))]
     read_dir: PathBuf,
 
     /// File name to write the output to, in case you don't want to have to trawl
@@ -24,7 +19,7 @@ struct CliOpts {
     _write_file: Option<PathBuf>,
 
     /// String to search for.
-    #[structopt(short, long, default_value = "read_dir")]
+    #[structopt(short, long)]
     search_string: String,
 
     /// Max depth to search through
